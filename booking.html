@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Moira Bar & Eatery</title>
+
+    <!-- SweetAlert library -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!--- favicon -->
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml" />
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="assets/css/booking.css" />
+
+    <script>
+      function onSubmitForm() {
+        var form = document.getElementById("booking-form");
+        var formData = new FormData(form);
+
+        // Kiểm tra trường nhập liệu trước khi gửi dữ liệu
+        var nameInput = document.getElementById("name");
+        var emailInput = document.getElementById("email");
+        var phoneInput = document.getElementById("phone");
+
+        var emailPattern = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+        var phonePattern = /^\d{10}$/;
+
+        if (nameInput.value === "") {
+          swal("Lỗi!", "Vui lòng nhập họ và tên!", "error");
+          return false;
+        }
+
+        if (!emailPattern.test(emailInput.value)) {
+          swal("Lỗi!", "Vui lòng nhập email hợp lệ!", "error");
+          return false;
+        }
+
+        if (!phonePattern.test(phoneInput.value)) {
+          swal("Lỗi!", "Vui lòng nhập số điện thoại hợp lệ!", "error");
+          return false;
+        }
+
+        if (
+          nameInput.value === "" ||
+          emailInput.value === "" ||
+          phoneInput.value === ""
+        ) {
+          swal("Lỗi!", "Vui lòng điền đầy đủ thông tin!", "error");
+          return;
+        }
+
+        form.reset();
+
+        var xhr = new XMLHttpRequest();
+        xhr.open(
+          "POST",
+          "https://script.google.com/macros/s/AKfycby6SOKPa1sEortLDo58nZlHR6zDDtaF5P_PAv8F5F0cRuWHQ7lYOvKJ0gqWKqju_OxA1w/exec"
+        );
+        xhr.send(formData);
+
+        // Hiển thị pop-up thông báo
+        swal("Cám ơn!", "Đặt bàn thành công!", "success");
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h2>BOOKING NOW</h2>
+      <form id="booking-form">
+        <label for="name">Họ và tên:</label>
+        <input type="text" id="name" name="Họ và tên" required />
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="Email" required />
+
+        <label for="phone">Số điện thoại:</label>
+        <input type="text" id="phone" name="Số điện thoại" required />
+
+        <label for="date">Ngày đặt:</label>
+        <input type="date" id="date" name="Ngày đặt" required />
+
+        <label for="time">Thời gian:</label>
+        <input type="time" id="time" name="Thời gian" required />
+
+        <label for="message">Số khách:</label>
+        <textarea id="message" name="Ghi chú"></textarea>
+
+        <input type="button" value="Gửi" onclick="onSubmitForm()" />
+      </form>
+    </div>
+  </body>
+</html>
